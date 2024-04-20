@@ -1,13 +1,19 @@
 import { RouteRecordRaw } from 'vue-router';
+import MainLayout from 'layouts/MainLayout.vue';
+import IndexPage from 'pages/IndexPage.vue';
+import CadastroPage from 'components/CadastroPage.vue';
+import LoginPage from 'components/LoginPage.vue';
+import HomePage from 'components/HomePage.vue';
+import ErrorNotFound from 'pages/ErrorNotFound.vue';
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    path: '/', component: MainLayout,
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') },
-      { path: '/cadastro', component: () => import('src/components/CadastroPage.vue')},
-      { path: '/login', component: () => import('components/LoginPage.vue')},
+      { path: '', component: IndexPage },
+      { path: '/cadastro', component: CadastroPage },
+      { path: '/login', component: LoginPage },
+      { path: '/home', component: HomePage, meta: { requiredAuth: true } }
     ],
   },
 
@@ -15,7 +21,7 @@ const routes: RouteRecordRaw[] = [
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue'),
+    component: ErrorNotFound,
   },
 ];
 

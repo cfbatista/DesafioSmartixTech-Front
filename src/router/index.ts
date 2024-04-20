@@ -32,5 +32,35 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
 
+  // const router = createRouter({
+  //   history: createWebHistory(),
+  //   routes
+  // });
+  
+  Router.beforeEach((to, from, next) => {
+    console.log('beforeEach - Routes');
+    console.log('Going to ', to.path);
+    
+    const isLogged = checkIfLoggedIn();
+    console.log(isLogged);
+    if (!isLogged && to.meta.requiredAuth){
+      next('/login');
+    } else if (isLogged && to.path === '/login'){
+      next('/home');
+    } 
+    else {
+      next();
+    }
+  });
+  
+  function checkIfLoggedIn(){
+    const token = localStorage.getItem('token');
+    console.log(token);
+
+    if (token) {
+      return true
+    }
+  }
+
   return Router;
 });
