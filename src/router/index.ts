@@ -45,7 +45,7 @@ export default route(function (/* { store, ssrContext } */) {
     console.log(isLogged);
     if (!isLogged && to.meta.requiredAuth){
       next('/login');
-    } else if (isLogged && to.path === '/login'){
+    } else if (isLogged && to.path === '/login/token'){
       next('/home');
     } 
     else {

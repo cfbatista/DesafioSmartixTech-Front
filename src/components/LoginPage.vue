@@ -1,15 +1,46 @@
 <template>
-  <div>Login</div>
+  <q-page class="flex flex-center bg-grey-2">
+    <q-card-section class="q-pa-md shadow-2" bordered>
+      <q-card-section class="text-center">
+        <div class="text-grey-9 text-h5 text-weight-bold">Login</div>
+        <div class="text-grey-8">Realize o login para acessar sua conta.</div>
+      </q-card-section>
+      <q-form @submit="submitForm">
+        <q-input outlined clearable v-model="formData.email" label="Email" />
+        <q-input
+          outlined
+          clearable
+          class="q-mt-md"
+          v-model="formData.senha"
+          label="Senha"
+          type="password"
+        />
+        <q-btn
+          type="submit"
+          label="Login"
+          style="border-radius: 8px"
+          no-caps
+          class="full-width q-mt-md"
+          color="dark"
+          rounded
+          size="md"
+        />
+      </q-form>
+      <q-card-section class="q-mt-md text-center q-pt-none">
+        <div class="text-grey-8">
+          Não tem uma conta ainda? Faça o
+          <a
+            href="#/cadastro"
+            class="text-dark text-weight-bold"
+            style="text-decoration: none"
+            >Cadastro.</a
+          >
+        </div>
+      </q-card-section>
+    </q-card-section>
+  </q-page>
 
-  <q-card-section>
-    <q-form @submit="submitForm">
-      <q-input v-model="formData.email" label="Email" />
-      <q-input v-model="formData.senha" label="Senha" type="password" />
-      <q-btn type="submit" label="Login" color="primary" class="q-mt-md" />
-    </q-form>
-  </q-card-section>
-
-  <!-- TOKEN MODAL -->
+  <!-- TOKEN MODAL
   <q-dialog v-model="showModal">
     <q-card>
       <q-card-section>
@@ -24,7 +55,7 @@
         </q-form>
       </q-card-section>
     </q-card>
-  </q-dialog>
+  </q-dialog> -->
 </template>
 
 <script lang="ts">
@@ -33,19 +64,14 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
-
   name: 'LoginPage',
   router: useRouter(),
   data() {
     return {
-      showModal: false,
       formData: ref({
         email: '',
         senha: '',
-      }),
-      formModal: ref({
-        token: '',
-      }),
+      })
     };
   },
   methods: {
@@ -62,30 +88,14 @@ export default defineComponent({
         );
 
         if (response.status === 200) {
-          this.showModal = true;
+          this.$router.replace('/login/token');
         }
 
         console.log(response);
       } catch (error) {
         console.log(error);
       }
-    },
-    async submitToken() {
-      try {
-        // const response = await axios.post('http://localhost:3000/login/valida-token',
-        //   this.formModal.token
-        // );
-        // console.log(response);
-        const authToken = 'teste'; // change to response.data.token
-        localStorage.setItem('token', authToken);
-        
-        this.$router.replace('/home');
-
-
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    }
   },
 });
 </script>

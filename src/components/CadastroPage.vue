@@ -1,33 +1,44 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <q-card class="q-pa-md">
+  <q-page class="flex flex-center bg-grey-2">
+    <q-card class="q-pa-md shadow-2 my_card" bordered>
+      <q-card-section class="text-center">
+            <div class="text-grey-9 text-h5 text-weight-bold">Cadastro</div>
+            <div class="text-grey-8">Por favor, faça o cadastro para acessar o site. </div>
+          </q-card-section>
       <q-card-section>
         <q-form @submit="submitForm">
           <q-input
             v-model="formData.nome"
             label="Nome completo"
             outlined
+            class="q-mt-md"
             clearable
           />
           <q-input
             v-model="formData.telefone"
             label="telefone"
             outlined
+            class="q-mt-md"
             clearable
           />
-          <q-input v-model="formData.email" label="Email" outlined clearable />
+          <q-input v-model="formData.email" label="Email" outlined clearable class="q-mt-md" />
           <q-input
             v-model="formData.senha"
             label="Senha"
             type="password"
+            class="q-mt-md"
             outlined
             clearable
           />
           <q-btn
             type="submit"
             label="Cadastrar"
-            color="primary"
-            class="q-mt-md"
+            color="dark"
+            class="q-mt-md full-width"
+            rounded
+            size="md"
+            style="border-radius: 8px;"
+            no-caps
             :disable="isDisabled"
           />
           <q-alert color="negative" v-if="error">{{ error }}</q-alert>
