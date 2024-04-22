@@ -6,14 +6,28 @@
         <div class="text-grey-8">Realize o login para acessar sua conta.</div>
       </q-card-section>
       <q-form @submit="submitForm">
-        <q-input outlined clearable v-model="formData.email" label="Email" />
+        <q-input
+          outlined
+          clear-icon="close"
+          clearable
+          v-model="formData.email"
+          label="Email"
+          :rules="[
+            (val) => !!val || '* Obrigatório',
+            (val) =>
+              /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) ||
+              'Por favor digite o email válido',
+          ]"
+        />
         <q-input
           outlined
           clearable
           class="q-mt-md"
           v-model="formData.senha"
+          clear-icon="close"
           label="Senha"
           type="password"
+          :rules="[(val) => !!val || '* Obrigatório']"
         />
         <q-btn
           type="submit"
@@ -95,7 +109,7 @@ export default defineComponent({
       } catch (error) {
         console.log(error);
       }
-    }
+    },
   },
 });
 </script>

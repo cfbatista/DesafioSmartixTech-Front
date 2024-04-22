@@ -2,33 +2,63 @@
   <q-page class="flex flex-center bg-grey-2">
     <q-card class="q-pa-md shadow-2 my_card" bordered>
       <q-card-section class="text-center">
-            <div class="text-grey-9 text-h5 text-weight-bold">Cadastro</div>
-            <div class="text-grey-8">Por favor, faça o cadastro para acessar o site. </div>
-          </q-card-section>
+        <div class="text-grey-9 text-h5 text-weight-bold">Cadastro</div>
+        <div class="text-grey-8">
+          Por favor, faça o cadastro para acessar o site.
+        </div>
+      </q-card-section>
       <q-card-section>
         <q-form @submit="submitForm">
           <q-input
             v-model="formData.nome"
             label="Nome completo"
             outlined
+            clear-icon="close"
             class="q-mt-md"
             clearable
+            :rules="[
+              val => !!val || '* Obrigatório',
+              val => val.length > 5 || 'Por favor digite o nome completo',
+            ]"
           />
           <q-input
             v-model="formData.telefone"
             label="telefone"
+            mask="(##) ##### - ####"
+            hint="Mask: (##) ##### - ####"
             outlined
+            clear-icon="close"
             class="q-mt-md"
             clearable
+            :rules="[
+              val => !!val || '* Obrigatório',
+              val => /^\(\d{2}\) \d{5}-\d{4}$/.test(val) || 'Por favor digite um telefone válido'
+            ]"
           />
-          <q-input v-model="formData.email" label="Email" outlined clearable class="q-mt-md" />
+          <q-input
+            v-model="formData.email"
+            clear-icon="close"
+            label="Email"
+            outlined
+            clearable
+            class="q-mt-md"
+            :rules="[
+              val => !!val || '* Obrigatório',
+              val => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) || 'Por favor digite o email válido',
+            ]"
+          />
           <q-input
             v-model="formData.senha"
             label="Senha"
             type="password"
+            clear-icon="close"
             class="q-mt-md"
             outlined
             clearable
+            :rules="[
+              val => !!val || '* Obrigatório',
+              val => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/.test(val) || 'Senha deve possuir ao menos 8 caracteres, 1 letra maiuscula, 1 número e 1 caracter especial',
+            ]"
           />
           <q-btn
             type="submit"
@@ -37,12 +67,23 @@
             class="q-mt-md full-width"
             rounded
             size="md"
-            style="border-radius: 8px;"
+            style="border-radius: 8px"
             no-caps
             :disable="isDisabled"
           />
           <q-alert color="negative" v-if="error">{{ error }}</q-alert>
         </q-form>
+        <q-card-section class="q-mt-md text-center q-pt-none">
+        <div class="text-grey-8">
+          Já possui uma conta ainda? Faça o 
+          <a
+            href="#/login"
+            class="text-dark text-weight-bold"
+            style="text-decoration: none"
+            >Login.</a
+          >
+        </div>
+      </q-card-section>
       </q-card-section>
     </q-card>
   </q-page>
