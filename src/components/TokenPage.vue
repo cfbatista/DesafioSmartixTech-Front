@@ -34,6 +34,7 @@
 import { defineComponent, ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { Notify } from 'quasar';
 
 export default defineComponent({
   name: 'LoginPage',
@@ -48,23 +49,33 @@ export default defineComponent({
   methods: {
     async submitToken() {
       try {
-        const postData = {
-          token: this.formModal.token
-        }
-        console.log(postData);
         
+        const postData = {
+          token: this.formModal.token,
+        };
+        console.log(postData);
+
         const response = await axios.post(
-          'http://localhost:3000/login/token', postData
+          'http://localhost:3000/login/token',
+          postData
         );
         console.log(response);
-        
+
         if (response.status === 200) {
+          Notify.create({
+            message: 'Token validado com sucesso.',
+            type: 'positive',
+          });
           const authToken = response.data.acessToken;
           console.log(authToken);
           localStorage.setItem('token', authToken);
           this.$router.push('/home');
         }
       } catch (error) {
+        Notify.create({
+          message: 'Token inválido.',
+          type: 'negative',
+        });
         console.log(error);
       }
     },

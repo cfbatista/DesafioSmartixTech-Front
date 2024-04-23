@@ -76,6 +76,7 @@
 import { defineComponent, ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { Notify, Loading } from 'quasar';
 
 export default defineComponent({
   name: 'LoginPage',
@@ -91,6 +92,9 @@ export default defineComponent({
   methods: {
     async submitForm() {
       try {
+        Loading.show({
+          message: 'Realizando login'
+        });
         const postData = {
           email: this.formData.email,
           senha: this.formData.senha,
@@ -101,13 +105,23 @@ export default defineComponent({
           postData
         );
 
+        Loading.hide();
         if (response.status === 200) {
           this.$router.replace('/login/token');
+
+          Notify.create({
+            message: 'Login feito com sucesso.',
+            type: 'positive'
+          });
         }
 
         console.log(response);
       } catch (error) {
         console.log(error);
+        Notify.create({
+            message: 'Usuário ou senha inválidos.',
+            type: 'negative'
+          });
       }
     },
   },
